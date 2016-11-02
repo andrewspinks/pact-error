@@ -1,0 +1,39 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.1.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+
+jar {
+	baseName = 'pact-error'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	compile('org.codehaus.groovy:groovy')
+
+  compile("org.apache.httpcomponents:fluent-hc:4.5.2",
+  "org.apache.httpcomponents:httpclient:4.5.2")
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+	testCompile "au.com.dius:pact-jvm-consumer-groovy_2.11:3.3.1"
+}

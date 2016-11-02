@@ -1,0 +1,59 @@
+{
+    "provider": {
+        "name": "LegacyService"
+    },
+    "consumer": {
+        "name": "MyService"
+    },
+    "interactions": [
+        {
+            "description": "a request to create a user",
+            "request": {
+                "method": "POST",
+                "path": "/user",
+                "headers": {
+                    "Accept": "application/json",
+                    "AUTH-TOKEN": "MyKey",
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "firstName": "First",
+                    "lastName": "last"
+                },
+                "matchingRules": {
+                    "$.headers.Accept": {
+                        "match": "regex",
+                        "regex": ".*application/json.*"
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "data": {
+                        "someStuff": "here"
+                    },
+                    "status": true
+                },
+                "matchingRules": {
+                    "$.headers.Content-Type": {
+                        "match": "regex",
+                        "regex": ".*application/json.*"
+                    }
+                }
+            },
+            "providerState": "Auth token valid"
+        }
+    ],
+    "metadata": {
+        "pact-specification": {
+            "version": "2.0.0"
+        },
+        "pact-jvm": {
+            "version": "3.3.1"
+        }
+    }
+}
