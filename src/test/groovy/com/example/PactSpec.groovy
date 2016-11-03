@@ -3,20 +3,12 @@ package com.example
 import au.com.dius.pact.consumer.PactVerified$
 import au.com.dius.pact.consumer.VerificationResult
 import au.com.dius.pact.consumer.groovy.PactBuilder
-import com.example.client.MyClient
+import org.apache.http.client.fluent.Request
+import org.apache.http.entity.ContentType
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 
-@RunWith(SpringJUnit4ClassRunner)
-@SpringBootTest
 class PactSpec {
-
-  @Autowired
-  private MyClient client
 
   @Before
   void setup() {
@@ -54,7 +46,11 @@ class PactSpec {
     }
 
     VerificationResult result = legacyWebappService.run {
-      def response = client.createUser("First", "last")
+      def response = Request.Post("http://localhost:1234/user")
+              .addHeader("Accept", "application/json")
+              .addHeader("AUTH-TOKEN", "MyKey")
+              .bodyString("{ \"firstName\": \"First\", \"lastName\": \"last\" }", ContentType.APPLICATION_JSON)
+              .execute().returnResponse()
       assert response.getStatusLine().statusCode == 200
     }
 
@@ -83,7 +79,11 @@ class PactSpec {
     }
 
     VerificationResult result = legacyWebappService.run {
-      def response = client.createUser("First", "last")
+      def response = Request.Post("http://localhost:1234/user")
+              .addHeader("Accept", "application/json")
+              .addHeader("AUTH-TOKEN", "MyKey")
+              .bodyString("{ \"firstName\": \"First\", \"lastName\": \"last\" }", ContentType.APPLICATION_JSON)
+              .execute().returnResponse()
       assert response.getStatusLine().statusCode == 401
     }
 
