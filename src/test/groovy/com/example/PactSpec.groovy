@@ -3,16 +3,17 @@ package com.example
 import au.com.dius.pact.consumer.PactVerified$
 import au.com.dius.pact.consumer.VerificationResult
 import au.com.dius.pact.consumer.groovy.PactBuilder
+import org.apache.http.client.fluent.Executor
 import org.apache.http.client.fluent.Request
 import org.apache.http.entity.ContentType
-import org.junit.Before
+import org.junit.After
 import org.junit.Test
 
 class PactSpec {
 
-  @Before
-  void setup() {
-//    sleep(4000) /* work around what seems to be a race condition in pact :-( */
+  @After
+  void teardown() {
+    Executor.closeIdleConnections()
   }
 
   @Test
